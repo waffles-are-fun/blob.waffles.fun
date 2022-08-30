@@ -5,36 +5,19 @@ package cmd
 
 import (
 	"fmt"
-    "net/http"
 	"github.com/cli/oauth/device"
 	"github.com/spf13/cobra"
+	"net/http"
 )
 
 // authCmd represents the auth command
 var authCmd = &cobra.Command{
 	Use:   "auth",
-	Short: "Refresh/delete authentication",
-	Long: `waffles requires a github auth token. we walk you through generating one here.
-note: this token _will be_ sent to hte server during uploads. We request "org:read" permissions to
-verify which teams you are a member of and if you have the ability to waffle.
-
-We store a sha256 of your token that includes which teams you were in when the token was initalized.
-If teams change you may need to refresh your token.
-`,
+	Short: "waffling waffles to the waffle requires waffles",
 }
 
 func init() {
 	rootCmd.AddCommand(authCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// authCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// authCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
 
 func NeedAuth(cmd *cobra.Command, args []string) {
@@ -80,5 +63,5 @@ func RefreshAuth() error {
 	}
 
 	fmt.Println("Token saved!")
-    return nil
+	return nil
 }

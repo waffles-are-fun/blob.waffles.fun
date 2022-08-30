@@ -9,7 +9,9 @@ import (
 )
 
 type Config struct {
-	Token string `json:"token"`
+	Token      string `json:"token"`
+	CacheDir   string `json:"cache_dir"`
+	ServerBase string `json:"server_base"`
 }
 
 var fn string
@@ -69,6 +71,17 @@ func LoadConfig() (*Config, error) {
 	err = json.Unmarshal(buf, &conf)
 	if err != nil {
 		return nil, err
+	}
+	if conf.CacheDir == "" {
+		path, err := os.UserHomeDir()
+		if err != nil {
+			return nil, err
+		}
+		conf.CacheDir = fmt.Sprintf("%s/.waffles", path)
+	}
+
+	if conf.ServerBase == "" {
+		conf.ServerBase = "http://localhost:5000"
 	}
 
 	return &conf, nil

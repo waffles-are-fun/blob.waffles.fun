@@ -36,8 +36,7 @@ func main() {
 	})
 
 	r.Route("/upload", func(r chi.Router) {
-		//TODO: auth middleware
-		r.Post("/", uploadByDigest)
+		r.With(RequireAuth).Post("/", uploadByDigest)
 	})
 
 	http.ListenAndServe(":5000", r)
@@ -69,4 +68,6 @@ func uploadByDigest(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
+    w.Header().Set("Content-Type", "text/plain")
+    w.Write([]byte(digest))
 }
